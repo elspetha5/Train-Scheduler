@@ -95,7 +95,7 @@
             width: 240px;
         }
 
-        #min {
+        #freq {
             width: 150px;
         }
 
@@ -137,10 +137,10 @@
         <form>
             <div class="form-row">
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Train Name">
+                    <input type="text" class="form-control" placeholder="Train Name" id="name">
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="First Train (HH:mm - military time)">
+                    <input type="text" class="form-control" placeholder="First Train (HH:mm - military time)" id="firstTrain">
                 </div>
             </div>
             <div class="form-row">
@@ -148,10 +148,10 @@
                     <input type="text" class="form-control" placeholder="Destination" id="des">
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Frequency (min)" id="min">
+                    <input type="text" class="form-control" placeholder="Frequency (min)" id="freq">
                 </div>
                 
-            <button type="button" class="btn btn-info">Submit</button>
+            <button type="button" class="btn btn-info" id="newTrain">Submit</button>
             </div>
         </form>
     </div>
@@ -171,6 +171,36 @@
         firebase.initializeApp(config);
 
         var database = firebase.database();
+
+        $("#newTrain").on("click", function(event) {
+            event.preventDefault();
+
+            var name = $("#name").val().trim();
+            var firstTrain = $("#firstTrain").val().trim();
+            var des = $("#des").val().trim();
+            var freq = $("#freq").val().trim();
+
+            var newTrain = {
+                trainName: name,
+                destination: des,
+                frequency: freq,
+            };
+
+            database.ref().push(newTrain);
+
+            console.log(newTrain.trainName);
+            console.log(newTrain.destination);
+            console.log(newTrain.frequency);
+
+            $("#name").val("");
+            $("#firstTrain").val("");
+            $("#des").val("");
+            $("#freq").val("");
+        });
+
+        database.ref().on("child_added", function() {
+            
+        });
 
 
     </script>
