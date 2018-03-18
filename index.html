@@ -17,11 +17,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-    <script src"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/locale/af.js"></script>
+    <script src "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/locale/af.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Trade+Winds" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P"
+        crossorigin="anonymous">
+
 
     <style>
         body {
             margin: auto;
+        }
+
+        h4 {
+            text-align: center;
+            font-family: 'Trade Winds', cursive;
+            color: white;
+
         }
 
         #shell {
@@ -36,41 +49,112 @@
 
         #sched {
             margin: auto;
-            margin-top: 30px;
+            margin-top: 20px;
             height: 300px;
             width: 650px;
             background: white;
             border-radius: 50px;
+            padding: 25px;
         }
 
+        table {
+            font-size: 70%;
+        }
+
+
         #light {
+            font-family: 'Trade Winds', cursive;
             margin: auto;
-            margin-top: 20px;
-            background: white;
-            height: 110px;
-            width: 110px;
+            padding: 3% 0px;
+            margin-top: 10px;
+            background: rgb(255, 237, 77);
+            border: 4px solid rgb(255, 185, 55);
+            height: 100px;
+            width: 100px;
+            font-size: 95%;
             border-radius: 100px;
+            text-align: center;
+            font-weight: bold;
         }
 
         #wheels {
             text-align: center;
             margin: auto;
             height: 100px;
-            width: 500px;
+            width: 575px;
             border-left: 40px solid black;
             border-right: 40px solid black;
             border-radius: 10px;
         }
 
+        .form-row {
+            padding: 5px;
+        }
+
+        #des {
+            width: 240px;
+        }
+
+        #min {
+            width: 150px;
+        }
+
+        button {
+            margin-right: 5px;
+        }
     </style>
 </head>
 
 <body>
     <div id="shell">
-        <div id="sched"></div>
-        <div id="light"></div>
+        <h4>Training All Trains</h4>
+        <div id="sched">
+            <h6>Current Train Schedule</h6>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Train Name</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Frequency (min)</th>
+                        <th scope="col">Next Arrival</th>
+                        <th scope="col">Minutes Away</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="light">Add a New Train <br><i class="fas fa-arrow-circle-down"></i></div>
     </div>
-    <div id="wheels"></div>
+    <div id="wheels">
+        <form>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Train Name">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="First Train (HH:mm - military time)">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Destination" id="des">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Frequency (min)" id="min">
+                </div>
+                
+            <button type="button" class="btn btn-info">Submit</button>
+            </div>
+        </form>
+    </div>
 
 
 
@@ -88,7 +172,7 @@
 
         var database = firebase.database();
 
-        
+
     </script>
 </body>
 
