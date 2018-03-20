@@ -10,14 +10,12 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-    <script src "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/locale/af.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Trade+Winds" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk"
         crossorigin="anonymous">
@@ -110,7 +108,7 @@
         <h4>Training All Trains</h4>
         <div id="sched">
             <h6>Current Train Schedule</h6>
-            <table class="table table-striped">
+            <table class="table table-striped" id="trainTable">
                 <thead>
                     <tr>
                         <th scope="col">Train Name</th>
@@ -120,18 +118,13 @@
                         <th scope="col">Minutes Away</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>20</td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
-        <div id="light">Add a New Train <br><i class="fas fa-arrow-circle-down"></i></div>
+        <div id="light">Add a New Train
+            <br>
+            <i class="fas fa-arrow-circle-down"></i>
+        </div>
     </div>
     <div id="wheels">
         <form>
@@ -150,8 +143,8 @@
                 <div class="col">
                     <input type="text" class="form-control" placeholder="Frequency (min)" id="freq">
                 </div>
-                
-            <button type="button" class="btn btn-info" id="newTrain">Submit</button>
+
+                <button type="button" class="btn btn-info" id="newTrain">Submit</button>
             </div>
         </form>
     </div>
@@ -172,7 +165,9 @@
 
         var database = firebase.database();
 
-        $("#newTrain").on("click", function(event) {
+        var trNum = 0;
+
+        $("#newTrain").on("click", function (event) {
             event.preventDefault();
 
             var name = $("#name").val().trim();
@@ -184,13 +179,10 @@
                 trainName: name,
                 destination: des,
                 frequency: freq,
+                trainStart: firstTrain,
             };
 
             database.ref().push(newTrain);
-
-            console.log(newTrain.trainName);
-            console.log(newTrain.destination);
-            console.log(newTrain.frequency);
 
             $("#name").val("");
             $("#firstTrain").val("");
@@ -198,10 +190,33 @@
             $("#freq").val("");
         });
 
-        database.ref().on("child_added", function() {
-            
-        });
 
+        database.ref().on("child_added", function (snapshot) {
+
+            var tName = snapshot.val().trainName;
+            var tDes = snapshot.val().destination;
+            var tFreq = snapshot.val().frequency;
+            var firstTime = snapshot.val().trainStart;
+
+            // Pushes train time back a year to make sure it comes before current time
+            var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+            // Finds the difference, in minutes, between current time and train time
+            var timeDiff = moment().diff(moment(firstTimeConverted), "minutes");
+            // Takes the difference and finds the remainder when divided by frequency
+            var remainder = timeDiff % tFreq;
+            // Finds how much longer until the next train
+            var minAway = tFreq - remainder;
+            // Finds out when the next train wil be
+            var nextT = moment().add(minAway, "minutes");
+            // Converts the next train time to hours and minutes
+            var nextTrainTime = moment(nextT).format("hh:mm")
+
+            $("#trainTable > tbody").append("<tr><td>" + tName + "</td><td>" + tDes + "</td><td>" + tFreq + 
+            "</td><td>" + nextTrainTime + "</td><td>" + minAway + "</td></tr>");
+
+
+            trNum++
+        });
 
     </script>
 </body>
