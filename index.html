@@ -165,8 +165,6 @@
 
         var database = firebase.database();
 
-        var trNum = 0;
-
         $("#newTrain").on("click", function (event) {
             event.preventDefault();
 
@@ -211,11 +209,9 @@
             // Converts the next train time to hours and minutes
             var nextTrainTime = moment(nextT).format("hh:mm")
 
+            // Adds new row to table and puts in train information
             $("#trainTable > tbody").append("<tr><td>" + tName + "</td><td>" + tDes + "</td><td>" + tFreq +
                 "</td><td>" + nextTrainTime + "</td><td>" + minAway + "</td></tr>");
-
-
-            trNum++
         });
 
     </script>
