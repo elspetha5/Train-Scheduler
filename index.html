@@ -17,10 +17,9 @@
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Trade+Winds" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk"
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
 
     <style>
@@ -100,12 +99,16 @@
         button {
             margin-right: 5px;
         }
+
+        table {
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <div id="shell">
-        <h4>Training All Trains</h4>
+        <h4><i class="animated slideInLeft far fa-hand-paper" id="jedi"></i> These Are the Trains You Are Looking For</h4>
         <div id="sched">
             <h6>Current Train Schedule</h6>
             <table class="table table-striped" id="trainTable">
@@ -211,8 +214,8 @@
             // Converts the next train time to hours and minutes
             var nextTrainTime = moment(nextT).format("hh:mm")
 
-            $("#trainTable > tbody").append("<tr><td>" + tName + "</td><td>" + tDes + "</td><td>" + tFreq + 
-            "</td><td>" + nextTrainTime + "</td><td>" + minAway + "</td></tr>");
+            $("#trainTable > tbody").append("<tr><td>" + tName + "</td><td>" + tDes + "</td><td>" + tFreq +
+                "</td><td>" + nextTrainTime + "</td><td>" + minAway + "</td></tr>");
 
 
             trNum++
